@@ -241,7 +241,7 @@ def market_prices(start_date: str=None, end_date: str=None, tickers: list=None) 
     
     return df
 
-def tickers_issuer(issuer:str) -> pd.DataFrame: 
+def tickers_by_issuer(issuer:str) -> pd.DataFrame: 
     '''
     Retorna el listado de instrumentos segun el emisor indicado
 
@@ -252,28 +252,7 @@ def tickers_issuer(issuer:str) -> pd.DataFrame:
 
     ''' 
 
-    query = f """
-    SELECT DISTINCT 
-    EMISOR, TICKER, CATEGORIA
-    FROM DM_INSTRUMENTOS
-    WHERE EMISOR = '{issuer}'
-    """
-    
-    db = DB_Investments()
-    df = db.execute_query(query)
-
-    return dfdef tickers_issuer(issuer:str) -> pd.DataFrame: 
-    '''
-    Retorna el listado de instrumentos segun el emisor indicado
-
-    issuer (str): 
-        Emisor
-
-    Return (pd.Dataframe): tickers del emisor 
-
-    ''' 
-
-    query = f """
+    query = f"""
     SELECT DISTINCT 
     EMISOR, TICKER, CATEGORIA
     FROM DM_INSTRUMENTOS
@@ -284,3 +263,4 @@ def tickers_issuer(issuer:str) -> pd.DataFrame:
     df = db.execute_query(query)
 
     return df
+    
