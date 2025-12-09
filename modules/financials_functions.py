@@ -34,7 +34,56 @@ def portfolio_volatility(
 
    return vol
 
+def portfolio_returns(
+    tickers: list,
+    start: str,
+    end: str,) -> pd.DataFrame:
+    '''
+    descarga desde la base de datos los precios de los
+    instrumentos indicando en el rango de fechas
 
+    ticker (list):
+    lista de nemos de los instrumentos que componen el portafolio
+
+    start (str):
+    fecha de inicio de precios
+    
+    end (str):
+    fecha de fin de precios
+    
+    Return (pd.DataFrame):
+    Dataframe de retornos diarios
+    '''
+    
+    # descarga precios
+    df = market_prices(
+        start_date=start,
+        end_date=end,
+        tickers=tickers 
+        )
+        
+    # pivot retornos
+    df_pivot = pd.pivot_table(
+        date=df
+        index= 'FECHA',
+        columns= 'TICKERS',
+        values='PRECIO_CIERRE',
+        aggfunc='max')
+    df_pivot = df_pivot.pct_change().dropna()
+    return df_pivot
+
+def VaR (sigma:float, confidence:float) -> float:
+    '''
+    Calculo del Valor en Riesgo (VaR) al nivel de confianza indicado
+    con supuesto de media cero por tanto es volatilidad por est cero
+    '''
+
+    #estadistico z al nivel de confianza
+    z_score = stats.norm.ppf(confidence)
+
+    #VaR
+    var = sigma * z_score
+    return var
 
 
 
