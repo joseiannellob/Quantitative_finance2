@@ -26,13 +26,13 @@ def portfolio_volatility(
    vector_w_t = np.array([vector_w])
 
    # varianza
-   vector_cov = np.dot(m_cov,vector_w_t)
-   varianza = np.dot(vector_cov,vector_w)
+   vector_cov = np.dot(m_cov,vector_w)
+   varianza = np.dot(vector_w_t,vector_cov)
 
    # volatilidad
    vol = np.sqrt(varianza)
 
-   return vol
+   return vol[0]
 
 def portfolio_returns(
     tickers: list,
@@ -64,9 +64,9 @@ def portfolio_returns(
         
     # pivot retornos
     df_pivot = pd.pivot_table(
-        date=df
+        data=df,
         index= 'FECHA',
-        columns= 'TICKERS',
+        columns= 'TICKER',
         values='PRECIO_CIERRE',
         aggfunc='max')
     df_pivot = df_pivot.pct_change().dropna()
